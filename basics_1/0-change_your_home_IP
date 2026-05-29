@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+# Configures local host resolution inside /etc/etc/hosts file
+
+# 1. Remplacer 127.0.0.1 localhost par 127.0.0.2 localhost
+sed -i 's/127.0.0.1\s*localhost/127.0.0.2 localhost/g' /etc/hosts
+
+# 2. Ajouter la règle pour facebook.com s'il n'existe pas, ou la mettre à jour
+if grep -q "facebook.com" /etc/hosts; then
+    sed -i 's/.*facebook.com/8.8.8.8 facebook.com/g' /etc/hosts
+else
+    echo "8.8.8.8 facebook.com" >> /etc/hosts
+fi
