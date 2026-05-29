@@ -2,7 +2,7 @@
 # Configures local host resolution inside /etc/hosts without breaking on busy mounts
 
 # 1. Modifier localhost et facebook.com proprement via un fichier temporaire local
-cat /etc/hosts | sed 's/127.0.0.1\s*localhost/127.0.0.2 localhost/g' > hosts.tmp
+sed 's/127.0.0.1\s*localhost/127.0.0.2 localhost/g' /etc/hosts > hosts.tmp
 
 if grep -q "facebook.com" hosts.tmp; then
     sed -i 's/.*facebook.com/8.8.8.8 facebook.com/g' hosts.tmp
@@ -10,6 +10,6 @@ else
     echo "8.8.8.8 facebook.com" >> hosts.tmp
 fi
 
-# 2. Écraser le contenu de /etc/hosts par redirection (le flux passe outre le verrou du mount)
+# 2. Écraser le contenu de /etc/hosts par redirection
 cat hosts.tmp > /etc/hosts
 rm -f hosts.tmp
